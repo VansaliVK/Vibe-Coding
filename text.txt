@@ -3,3 +3,5 @@ This is first project
 First GitHub
 test line for git pull 
 Test line for git push
+
+Main branch is better.  -2026.03.09.
