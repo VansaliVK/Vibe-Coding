@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Idea Board | Professional</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Professional Palette */
+            --primary: #775de7;       /* Indigo 600 */
+            --primary-hover: #763fa2; /* Indigo 700 */
+            --secondary: #7C3AED;     /* Violet 600 */
+            --accent: #EC4899;        /* Pink 500 */
+            
+            --bg-body: #F9FAFB;       /* Gray 50 */
+            --bg-surface: #FFFFFF;
+            
+            --text-main: #111827;     /* Gray 900 */
+            --text-secondary: #4B5563;/* Gray 600 */
+            --text-muted: #9CA3AF;    /* Gray 400 */
+            
+            --border: #E5E7EB;        /* Gray 200 */
+            --border-hover: #D1D5DB;  /* Gray 300 */
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            background: linear-gradient(135deg, #aefaff 0%, #386bf9 100%); /* Fresh gradient */
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            flex: 1;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, #4698e5 0%, #9570d4 100%);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            color: white;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* --- Stats Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1;
+        }
+
+        /* --- Forms & Inputs --- */
+        .card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 200px 1fr auto;
+            gap: 16px;
+            align-items: start;
+        }
+
+        /* Secondary Form (Add Member) */
+        .secondary-form {
+            background: transparent;
+            border: 1px dashed var(--border);
+            padding: 20px;
+            margin-bottom: 24px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .secondary-form h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+        }
+
+        .secondary-input-group {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* Input Styling */
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            height: 44px;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 20px;
+            height: 44px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            background-color: #F9FAFB;
+        }
+
+        /* Wrapper for clear button inside input */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: none;
+            padding: 4px;
+            border-radius: 50%;
+        }
+        
+        .clear-btn:hover {
+            background-color: #F3F4F6;
+            color: var(--text-secondary);
+        }
+
+        /* --- Ideas List --- */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .list-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .idea-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .idea-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .idea-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .idea-number {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #F3F4F6;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .idea-content {
+            flex: 1;
+        }
+
+        .idea-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .idea-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-tag {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: all 0.2s;
+        }
+
+        .idea-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .delete-btn:hover {
+            background-color: #FEF2F2;
+            color: #EF4444;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            background: white;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            background: #F9FAFB;
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .input-group, .secondary-form {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .secondary-input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-badge">
+                <i data-lucide="users" size="14"></i>
+                <span id="active-members">0 Active Members</span>
+            </div>
+            <h1>
+                <i data-lucide="lightbulb" size="32" style="fill: white; opacity: 0.9;"></i>
+                Group Idea Board
+            </h1>
+            <p>Collaborate, brainstorm, and share your best thoughts.</p>
+        </header>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <!-- Total Ideas -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #EEF2FF; color: var(--primary);">
+                        <i data-lucide="zap" size="16"></i>
+                    </div>
+                    <span>Total Ideas</span>
+                </div>
+                <div class="stat-value" id="stat-total">0</div>
+            </div>
+
+            <!-- Contributors -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #F3E8FF; color: var(--secondary);">
+                        <i data-lucide="users" size="16"></i>
+                    </div>
+                    <span>Contributors</span>
+                </div>
+                <div class="stat-value" id="stat-users">0</div>
+            </div>
+
+            <!-- Personal Count -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #FDF2F8; color: var(--accent);">
+                        <i data-lucide="star" size="16"></i>
+                    </div>
+                    <span>Your Ideas</span>
+                </div>
+                <div class="stat-value" id="stat-personal">0</div>
+            </div>
+        </div>
+
+        <main>
+            <!-- Secondary Action: Add Member -->
+            <div class="secondary-form">
+                <h3>
+                    <i data-lucide="user-plus" size="18"></i>
+                    Add Member
+                </h3>
+                <div class="secondary-input-group">
+                    <input type="text" id="new-user-input" placeholder="Enter name...">
+                    <button id="add-user-btn" class="btn btn-secondary" style="width: auto;">
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <!-- Primary Action: Add Idea -->
+            <div class="card">
+                <h2 class="section-header">
+                    <i data-lucide="plus-circle" class="text-primary"></i>
+                    Add Your Idea
+                </h2>
+                <div class="input-group">
+                    <div class="select-wrapper">
+                        <select id="user-select">
+                            <option value="" disabled selected>Select User</option>
+                            <!-- Users injected via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <input type="text" id="idea-input" placeholder="What's your brilliant idea?">
+                        <button class="clear-btn" id="clear-input" title="Clear text">
+                            <i data-lucide="x" size="14"></i>
+                        </button>
+                    </div>
+
+                    <button id="add-btn" class="btn btn-primary">
+                        Add Idea
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ideas List -->
+            <div style="margin-top: 32px;">
+                <div class="list-header">
+                    <div class="list-title">
+                        <i data-lucide="layers" size="20" style="color: var(--text-muted);"></i>
+                        Collected Ideas
+                    </div>
+                    <span id="count-badge" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                        0 items
+                    </span>
+                </div>
+
+                <div id="ideas-container" class="idea-grid">
+                    <!-- Ideas injected via JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Group Idea Board. Professional Edition.</p>
+    </footer>
+
+    <script>
+        // --- State Management ---
+        let users = ["Nimal", "Sara", "Alex"];
+        let ideas = [
+            { id: 1, text: "Build a study planner app", user: "Nimal" },
+            { id: 2, text: "Start a tech podcast series", user: "Sara" },
+            { id: 3, text: "Organize a local coding workshop", user: "Alex" }
+        ];
+
+        // --- DOM Elements ---
+        const els = {
+            userSelect: document.getElementById('user-select'),
+            ideaInput: document.getElementById('idea-input'),
+            addBtn: document.getElementById('add-btn'),
+            clearBtn: document.getElementById('clear-input'),
+            ideasContainer: document.getElementById('ideas-container'),
+            newUserInput: document.getElementById('new-user-input'),
+            addUserBtn: document.getElementById('add-user-btn'),
+            stats: {
+                total: document.getElementById('stat-total'),
+                users: document.getElementById('stat-users'),
+                personal: document.getElementById('stat-personal'),
+                activeBadge: document.getElementById('active-members'),
+                countBadge: document.getElementById('count-badge')
+            }
+        };
+
+        // --- Core Functions ---
+
+        function renderUsers() {
+            const current = els.userSelect.value;
+            els.userSelect.innerHTML = '<option value="" disabled selected>Select User</option>';
+            users.forEach(user => {
+                const opt = document.createElement('option');
+                opt.value = user;
+                opt.textContent = user;
+                els.userSelect.appendChild(opt);
+            });
+            if (users.includes(current)) els.userSelect.value = current;
+            updateStats();
+        }
+
+        function renderIdeas() {
+            els.ideasContainer.innerHTML = '';
+            
+            if (ideas.length === 0) {
+                els.ideasContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="inbox" size="48" style="opacity: 0.5; margin-bottom: 16px;"></i>
+                        <p>No ideas yet. Be the first to contribute!</p>
+                    </div>
+                `;
+            } else {
+                ideas.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'idea-item';
+                    div.innerHTML = `
+                        <div class="idea-number">${index + 1}</div>
+                        <div class="idea-content">
+                            <div class="idea-text">${item.text}</div>
+                            <div class="idea-meta">
+                                Suggested by <span class="user-tag">${item.user}</span>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteIdea(${item.id})" title="Delete Idea">
+                            <i data-lucide="trash-2" size="18"></i>
+                        </button>
+                    `;
+                    els.ideasContainer.appendChild(div);
+                });
+            }
+            lucide.createIcons();
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = ideas.length;
+            const uniqueUsers = new Set(ideas.map(i => i.user)).size;
+            const currentUser = els.userSelect.value;
+            const personal = currentUser ? ideas.filter(i => i.user === currentUser).length : 0;
+
+            els.stats.total.textContent = total;
+            els.stats.users.textContent = uniqueUsers;
+            els.stats.personal.textContent = personal; // Live update based on dropdown
+            els.stats.activeBadge.textContent = `${uniqueUsers} Active Members`;
+            els.stats.countBadge.textContent = `${total} items`;
+        }
+
+        function handleAddIdea() {
+            const user = els.userSelect.value;
+            const text = els.ideaInput.value.trim();
+
+            if (!user) return alert("Please select a user first.");
+            if (!text) return alert("Please enter an idea.");
+
+            ideas.push({ id: Date.now(), text, user });
+            els.ideaInput.value = '';
+            els.clearBtn.style.display = 'none';
+            renderIdeas();
+        }
+
+        function handleAddUser() {
+            const name = els.newUserInput.value.trim();
+            if (!name) return;
+            if (users.includes(name)) return alert("User already exists.");
+            
+            users.push(name);
+            els.newUserInput.value = '';
+            renderUsers();
+        }
+
+        function deleteIdea(id) {
+            if(confirm('Delete this idea?')) {
+                ideas = ideas.filter(i => i.id !== id);
+                renderIdeas();
+            }
+        }
+
+        // --- Event Listeners ---
+        els.addBtn.addEventListener('click', handleAddIdea);
+        els.ideaInput.addEventListener('keypress', e => e.key === 'Enter' && handleAddIdea());
+        
+        els.addUserBtn.addEventListener('click', handleAddUser);
+        els.newUserInput.addEventListener('keypress', e => e.key === 'Enter' && handleAddUser());
+
+        els.userSelect.addEventListener('change', updateStats);
+        
+        els.ideaInput.addEventListener('input', () => {
+            els.clearBtn.style.display = els.ideaInput.value ? 'block' : 'none';
+        });
+        
+        els.clearBtn.addEventListener('click', () => {
+            els.ideaInput.value = '';
+            els.clearBtn.style.display = 'none';
+            els.ideaInput.focus();
+        });
+
+        // --- Init ---
+        // Expose deleteIdea to window scope for onclick attribute
+        window.deleteIdea = deleteIdea;
+        
+        renderUsers();
+        renderIdeas();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
